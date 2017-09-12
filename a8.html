@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>滚动行为</title>
+
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+    
+    <style>
+        li{
+            list-style: none;
+        }
+        *{
+            margin: 0;padding: 0;
+        }
+        #app{
+          
+            padding:20px 50px ;
+        }
+      
+       .a1{
+            margin: 0 auto;
+            display: inline-block;
+            margin-left: 45%;
+        }
+        #app ul li{
+          
+           float: left;
+           padding:0 70px; 
+          
+        }
+        #app ul{
+          margin-top: 20px;
+          height: 100px;
+        }
+        .a3{
+            margin: 200px;
+          
+        }
+        .b1{
+            height: 500px;
+            background: rosybrown;
+        }
+        .b2{
+            height: 500px;
+            background: royalblue;
+        }
+        .b3{
+            height: 500px;
+            background: gray;
+        }
+        
+        .c1{
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0；
+        }
+    </style>
+
+</head>
+<body>
+    <div id="app">
+        <div class="c1">
+        <h1 class="a1"> 滚动行为</h1>
+
+        <ul>
+            <li><router-link to="/">首页</router-link></li>
+            <li><router-link to="foo">新闻</router-link></li>
+            <li><router-link to="bar">焦点</router-link></li>
+            <li><router-link to="bar#anchor1">动画</router-link></li>
+            <li><router-link to="bar#anchor2">热门电影推荐</router-link></li>
+        </ul>
+       </div>
+         
+         <div class="a3"><router-view></router-view></div>
+       
+        
+       
+    </div>
+    
+    <script>
+        const Home={
+            template:`
+            <div>
+                    <div class="b1">新闻</div>
+                     <div class="b2">热点</div>
+                    
+            
+            
+            </div>
+            
+            `
+        }
+        const Foo={
+            template:'<div class="b3">我们态度</div>'
+        }
+        
+        const Bar={
+            template:`
+            <div>
+        
+            <div style="height:500px;background:red">新闻</div>
+            <p id="anchor1" >动画</p>
+            <img src="http://imgsrc.baidu.com/image/c0%3Dshijue1%2C0%2C0%2C294%2C40/sign=f98d7c40b919ebc4d4757edaea4fa589/b64543a98226cffc9eabfc97b3014a90f603ea16.jpg">
+            <p id="anchor2">热点推荐</p>
+            <img src="http://img1.gtimg.com/20/2038/203815/20381562_1200x1000_0.jpg">
+           
+            </div>
+            
+            `
+            
+        }
+        
+        
+        var router=new VueRouter({
+            mode: 'history',
+            routes:[
+                { path:'/' ,component:Home},
+                { path:'/foo' ,component:Foo},
+                { path:'/bar' ,component:Bar},
+                 ],
+                 scrollBehavior (to, from, savedPosition) {
+                    if (savedPosition) {
+                    return savedPosition
+                } else {
+                   if(to.hash){
+                       return { selector: to.hash}
+                   }
+                }
+                    }
+        });
+         var vm=new Vue({
+          el:'#app',
+            router,
+         })
+      
+    </script>
+
+
+
+</body>
+</html>
